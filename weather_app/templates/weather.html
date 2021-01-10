@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename = 'main.css')}}"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
+      integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"
+      integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <section class="weather">
+      <h4 class="text-center p-4">What's the weather like?</h4>
+    </section>
+    <section class="text-center p-4">
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <form method="POST">
+            <div class="input-group">
+              <input type="text" class="form-control" name="city" id="city" />
+              <button class="btn btn-sm btn-primary submit">Get Weather</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        {% for weather in weather_data_list %}
+        <div class="row">
+          <div class="col-md-4 offset-md-4">
+            <div class="card">
+              <div class="card-body">
+                <img
+                  src="https://openweathermap.org/img/w/{{weather.icon}}.png"
+                  alt=""
+                />
+                <span class="city">{{weather.city}}</span>
+                <br />
+                &nbsp;<span class="temperature">{{weather.temperature}}</span>
+                &nbsp;
+                <p class="description">{{weather.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <script>
+      document.querySelector(".submit").addEventListener("click", function (e) {
+        if (document.getElementById("city").value.length === 0) {
+          alert("Please Enter a city");
+          e.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>
