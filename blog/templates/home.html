@@ -1,0 +1,217 @@
+{% extends 'base.html' %} {% block body %}
+
+<section id="nav-section">
+  <nav
+    class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top"
+    id="main-nav"
+  >
+    <div class="container">
+      <a href="" class="navbar-brand">My Blog</a>
+      <button
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarcollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarcollapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="#nav-section" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#create_post" class="nav-link">Create Post</a>
+          </li>
+          <li class="nav-item">
+            <a href="#view_posts" class="nav-link">View Posts</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>
+
+<!-- carousel section -->
+<section id="carousel">
+  <div id="mycarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#mycarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#mycarousel" data-slide-to="1"></li>
+      <li data-target="#mycarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item carousel-img-1 active">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>About this Page</h1>
+            <p class="lead d-none d-sm-block">
+              User can create a customized post with title and description and
+              then can view them later
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item carousel-img-2">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>Create Post</h1>
+            <p class="lead d-none d-sm-block">
+              User is provided with an option to create a post. Firstly user has
+              to fill the fields in the form and then can submit to save the
+              post in the database.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item carousel-img-3">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1>View Post</h1>
+            <p class="lead d-none d-sm-block">
+              User can view posts which were already created and can click on
+              More button under view post section to see the detailed
+              description of the post
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="#mycarousel" class="carousel-control-prev" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a href="#mycarousel" class="carousel-control-next" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+</section>
+
+<!-- create post section -->
+<section id="create_post" class="py-5 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="display-3 text-center">Create a Post</h1>
+        <hr />
+        <form action="{{url_for('add_post')}}" method="POST">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" />
+            <small class="form-text text-danger" id="title_text"></small>
+          </div>
+          <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" class="form-control" id="author" name="author" />
+            <small class="form-text text-danger" id="author_text"></small>
+          </div>
+          <div class="form-group">
+            <label for="short_description">Short Description</label>
+            <textarea
+              class="form-control"
+              id="short_description"
+              name="short_description"
+              id=""
+              cols="10"
+              rows="2"
+            ></textarea>
+            <small class="form-text text-danger" id="short_desc_text"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="detailed_description">Detailed Description</label>
+            <textarea
+              name="detailed_description"
+              id="detailed_description"
+              cols="10"
+              rows="8"
+              class="form-control"
+            ></textarea>
+            <small
+              class="form-text text-danger"
+              id="detailed_desc_text"
+            ></small>
+          </div>
+          <button id="submit" class="btn btn-block btn-danger">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- view post section -->
+<section id="view_posts" class="py-5 bg-dark">
+  <div class="container">
+    <h1 class="display-3 text-center text-white">View Posts</h1>
+    <hr />
+    {% for post in posts%}
+    <div class="row m-4">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header text-center">{{post.title}}</div>
+          <div class="card-body">
+            {{post.short_description}}
+            <br />
+            <br />
+            <small class="text-muted"
+              >Posted by {{post.author}} on {{post.date_created.strftime('%B %d,
+              %Y')}}</small
+            >
+          </div>
+          <div class="card-footer text-center">
+            <a
+              href="{{url_for('display_post', id=post.id )}}"
+              class="btn btn-outline-danger btn-block"
+            >
+              More..
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+<script>
+  document.getElementById("submit").addEventListener("click", function (event) {
+    author_length = document.getElementById("author").value.length;
+    title_length = document.getElementById("title").value.length;
+    short_desc_length = document.getElementById("short_description").value
+      .length;
+    detailed_desc_length = document.getElementById("detailed_description").value
+      .length;
+
+    document.getElementById("author_text").textContent = "";
+    document.getElementById("title_text").textContent = "";
+    document.getElementById("short_desc_text").textContent = "";
+    document.getElementById("detailed_desc_text").textContent = "";
+
+    if (
+      author_length === 0 ||
+      title_length === 0 ||
+      short_desc_length === 0 ||
+      detailed_desc_length === 0
+    ) {
+      event.preventDefault();
+      document.getElementById("detailed_desc_text").textContent =
+        "Fields cannot be empty";
+      return;
+    }
+    if (author_length > 50) {
+      event.preventDefault();
+      document.getElementById("author_text").textContent =
+        "Number of Characters exceeded 50";
+    }
+    if (title_length > 50) {
+      event.preventDefault();
+      document.getElementById("title_text").textContent =
+        "Number of Characters exceeded 50";
+    }
+    if (short_desc_length > 100) {
+      event.preventDefault();
+      document.getElementById("short_desc_text").textContent =
+        "Number of Characters exceeded 100";
+    }
+  });
+</script>
+
+{% endblock %}

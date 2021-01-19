@@ -1,0 +1,38 @@
+.navbar {
+  box-shadow: 2px 2px 5px #ee907c;
+}
+.carousel-item {
+  height: 400px;
+}
+
+.carousel-img-1 {
+  background: url("../images/image1.jpg");
+  background-size: cover;
+  background-position: 0 -300px;
+}
+
+.carousel-img-2 {
+  background: url("../images/image2.jpg");
+  background-size: cover;
+  background-position: 0 -200px;
+}
+
+.carousel-img-3 {
+  background: url("../images/image3.jpg");
+  background-size: cover;
+  background-position: 0 -150px;
+}
+
+#header {
+  padding-top: 150px;
+  min-height: 400px;
+  background: url("../images/image4.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+}
+#footer {
+  background-color: #ee907c;
+}
+#content {
+  min-height: 450px;
+}
